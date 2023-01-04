@@ -19,7 +19,9 @@ Steps and options to run pipeline:
   For key for metadata file: Enter comma seaparated column/variable names from your metadata file. Then change the name in 2pass_indv_pipe.nf from:
 
   params.metadata_csv= "${projectDir}/ASAP_samples_master_spreadsheet_25.8.21.csv" 
+  
   to
+  
   params.metadata_csv= "${projectDir}/NEW_METADATA_FILE"
 
   The key for the metadata file is currently: key_for_metadata.txt
