@@ -10,6 +10,7 @@ publishDir "${params.output}/multiqc", mode: 'copy', overwrite: true
     input:
     path(salmon_files)
     path(star_files)
+    path(rseqc_files)
     val(file_dir)
 
     output:

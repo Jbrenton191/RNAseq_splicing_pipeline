@@ -13,7 +13,7 @@ path(bams)
 each(bed_model)
 
 output:
-path("*")
+path("*"), emit: read_dists
 
 script:
 sample_name=bams.simpleName
