@@ -3,7 +3,7 @@
 ## 1. 
   Create the conda environment using:
 
-  conda env create --name NAME --file FILE
+  conda env create --name NAME --file nextflow_qc.align_env.yml
 
   This can take around 5-15 min to build.
   To activate the environment:
