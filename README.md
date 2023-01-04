@@ -1,6 +1,6 @@
 Steps and options to run pipeline:
 
-*1. Create the conda environment using:
+* 1. Create the conda environment using:
 
 conda env create --name NAME --file FILE
 
@@ -9,13 +9,13 @@ To activate the environment:
 
 conda activate NAME
 
-*2. Change the genome or transcripts build or gtf in the gencode_genome_download.nf file in the modules folder. New ftp links can be added and then the gunzip lines need to be updated to match those names.
+* 2. Change the genome or transcripts build or gtf in the gencode_genome_download.nf file in the modules folder. New ftp links can be added and then the gunzip lines need to be updated to match those names.
 
-*3. The config file also needs to be changed depending on your system/server. It currently runs 6 processes/tasks (an individual file or module being run = 1 task) at a time and uses 6 CPUs and 36 GB of RAM per task (as currently being used on a large server). 
+* 3. The config file also needs to be changed depending on your system/server. It currently runs 6 processes/tasks (an individual file or module being run = 1 task) at a time and uses 6 CPUs and 36 GB of RAM per task (as currently being used on a large server). 
 
 These can be changed depending on the resources of your server/system (remember to not remove the . before GB! It is needed). A commented version using slurm to distribute tasks is listed below for reference.
 
-*4. Metadata: 
+* 4. Metadata: 
 -For key for metadata file: Enter comma seaparated column/variable names from your metadata file. Then change the name in 2pass_indv_pipe.nf from:
 
 params.metadata_csv= "${projectDir}/ASAP_samples_master_spreadsheet_25.8.21.csv" 
@@ -37,7 +37,7 @@ Rscript ./R_scripts/Rpackage_download.R
 If this runs without error then it is good to go - otherwise it check the R_scripts/Rpackage_download.R file and check which package is causing the problem. Devtools can be problematic on some servers. One way around this is use the conda version of the R package ie:
 https://anaconda.org/conda-forge/r-devtools
 
-*6. The easiest way to run the pipeline is to make a screen, and run:
+* 6. The easiest way to run the pipeline is to make a screen, and run:
 
 ./nextflow_time_date_wrapper.sh 2pass_indv_pipe.nf
 
@@ -53,4 +53,4 @@ output will be in folder: output_2pass_indv
 
 a work folder can be deleted after the run completes as this is a folder containing duplicate data but used for symlinking during pipeline run.
 
-*7. When rerunning the pipeline rename the previous output folder to something new to avoid overwrites or confusion.
+* 7. When rerunning the pipeline rename the previous output folder to something new to avoid overwrites or confusion.
