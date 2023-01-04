@@ -1,7 +1,7 @@
 # Steps and options to run pipeline:
 
 ## 1. 
-  Create the conda environment using:
+  Create the conda environment from within this folder using:
 
   conda env create --name NAME --file nextflow_qc.align_env.yml
 
