@@ -13,14 +13,15 @@ publishDir "${params.output}/reference_downloads", mode: 'copy', overwrite: true
 
 	script:
 	"""
-	wget ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_41/gencode.v41.annotation.gtf.gz
-	wget ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_41/GRCh38.primary_assembly.genome.fa.gz
+	wget ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_mouse/release_M32/gencode.vM32.annotation.gtf.gz
 
-	gunzip GRCh38.primary_assembly.genome.fa.gz
-	gunzip gencode.v41.annotation.gtf.gz
+	wget ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_mouse/release_M32/GRCm39.primary_assembly.genome.fa.gz
 
-	wget ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_41/gencode.v41.transcripts.fa.gz
+	gunzip gencode.vM32.annotation.gtf.gz
+	gunzip GRCm39.primary_assembly.genome.fa.gz
 
-	gunzip gencode.v41.transcripts.fa.gz
+	wget ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_mouse/release_M32/gencode.vM32.transcripts.fa.gz
+
+	gunzip gencode.vM32.transcripts.fa.gz
 	"""
 }

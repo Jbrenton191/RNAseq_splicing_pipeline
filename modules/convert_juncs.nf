@@ -16,6 +16,6 @@ myDir.mkdirs()
     script:
     out_dir="${params.output}/leafcutter"
     """
-    Rscript ${projectDir}/R_scripts/convert_STAR_SJ_to_junc.R $sj_loc ${out_dir} ${projectDir}/hg38-blacklist.v2.bed.gz
+    Rscript ${projectDir}/R_scripts/convert_STAR_SJ_to_junc.R $sj_loc ${out_dir} ${projectDir}/mm10-blacklist.v2.bed.gz
     """
 }
