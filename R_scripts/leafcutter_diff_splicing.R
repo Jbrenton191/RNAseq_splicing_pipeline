@@ -44,7 +44,7 @@ for(i in 1:nrow(group_file_df)){
 
   print(str_c("Performing leafcutter differential splicing using the group file entitled: ", group_file_df$group_file_name[i]))
 
-leafcutter_cmd <- str_c("Rscript ", base_dir, "/leafcutter_ds.R ",
+leafcutter_cmd <- str_c("Rscript ", base_dir, "/R_scripts/leafcutter_ds.R ",
                         count_file, " ", # path to count file
                         group_file_df$group_file_path[i], # path to group file
                         " --output_prefix ", group_file_df$group_file_name[i], # comparison-specific output prefix
