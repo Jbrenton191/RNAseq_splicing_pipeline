@@ -20,7 +20,7 @@ arguments$opt$min_samples_per_group  <- "3"
 arguments$opt$min_coverage <- "20"
 arguments$opt$timeout <- "30"
 
-# arguments$opt$num_threads <- "15"
+arguments$opt$num_threads <- "24"
 # arguments$args[3]<-"/home/jbrenton/nextflow_pd/output/leafcutter/gencode_LC_exon_file.txt.gz"
 
 opt <- arguments$opt
