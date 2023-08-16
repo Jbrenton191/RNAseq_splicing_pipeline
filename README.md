@@ -1,11 +1,17 @@
 # Steps and options to run pipeline:
-
+## 0.
+Download Anaconda or miniconda, or update installed version of conda using:
+'conda update -n base conda'
+and install mamba using 'conda install -c conda-forge mamba' for quicker environment solving.
 ## 1. 
   Create the conda environment from within this folder using (change NAME to what you want environment to be called):
 
   conda env create --name NAME --file nextflow_qc.align_env.yml
 
-  This can take around 5-15 min to build.
+  if mamba is installed:
+  mamba env create --name NAME --file nextflow_qc.align_env.yml
+
+  This can take around 5-15 min to build with conda.
   To activate the environment:
 
   conda activate NAME
