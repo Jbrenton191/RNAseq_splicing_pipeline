@@ -20,10 +20,10 @@ genes_gencode<- names(gencode_fasta)
 
 parseGencode<-function(genestring){
 
-  identifier<-sub("^(ENST.+)\\|(.+)\\|.+\\|.+\\|.+\\|(.+)\\|.+\\|(.+)\\|$", "\\1", genestring)
-  geneName<-sub("^(ENST.+)\\|(.+)\\|.+\\|.+\\|.+\\|(.+)\\|.+\\|(.+)\\|$", "\\2", genestring)
-  symbol<-sub("^(ENST.+)\\|(.+)\\|.+\\|.+\\|.+\\|(.+)\\|.+\\|(.+)\\|$", "\\3", genestring)
-  description<-sub("^(ENST.+)\\|(.+)\\|.+\\|.+\\|.+\\|(.+)\\|.+\\|(.+)\\|$", "\\4", genestring)
+  identifier<-sub("^(ENSMUST.+)\\|(.+)\\|.+\\|.+\\|.+\\|(.+)\\|.+\\|(.+)\\|$", "\\1", genestring)
+  geneName<-sub("^(ENSMUST.+)\\|(.+)\\|.+\\|.+\\|.+\\|(.+)\\|.+\\|(.+)\\|$", "\\2", genestring)
+  symbol<-sub("^(ENSMUST.+)\\|(.+)\\|.+\\|.+\\|.+\\|(.+)\\|.+\\|(.+)\\|$", "\\3", genestring)
+  description<-sub("^(ENSMUST.+)\\|(.+)\\|.+\\|.+\\|.+\\|(.+)\\|.+\\|(.+)\\|$", "\\4", genestring)
 
   return(c(identifier, geneName, symbol, description))
 }
