@@ -19,6 +19,8 @@ and install mamba using 'conda install -c conda-forge mamba' for quicker environ
 ## 2. 
   Change the genome or transcripts build or gtf in the gencode_genome_download.nf file in the modules folder. New ftp links can be added and then the gunzip lines need to be updated to match those names.
 
+The current pipeline is set to download gencode v41 gtf and transcript references and use the GRCh38 genome.
+
 ## 3. 
   The config file also needs to be changed depending on your system/server. It currently runs 6 processes/tasks (an individual file or module being run = 1 task) at a time and uses 6 CPUs and 36 GB of RAM per task (as currently being used on a large server). 
 
@@ -69,3 +71,6 @@ https://anaconda.org/conda-forge/r-devtools
 
 ## 7.
   When rerunning the pipeline rename the previous output folder to something new to avoid overwrites or confusion.
+
+# Notes:
+The leafcutter and DEseq modules of the pipeline are currently commented out. These are better run manually and with the specific covariates that have been tested for each dataset and have a large impact on the variance of the dataset.
