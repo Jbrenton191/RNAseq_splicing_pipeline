@@ -74,3 +74,5 @@ https://anaconda.org/conda-forge/r-devtools
 
 # Notes:
 The leafcutter and DEseq modules of the pipeline are currently commented out. These are better run manually and with the specific covariates that have been tested for each dataset and have a large impact on the variance of the dataset.
+
+The other branch of this repository is set to work with mouse/mus musculus fastq data.
