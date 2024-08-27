@@ -1,3 +1,11 @@
+DOI:
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.13379191.svg)](https://doi.org/10.5281/zenodo.13379191)
+
+# Notes:
+The leafcutter and DEseq modules of the pipeline are currently commented out. These are better run manually and with the specific covariates that have been tested for each dataset and have a large impact on the variance of the dataset.
+
+The other branch of this repository is set to work with mouse/mus musculus fastq data.
+
 # Steps and options to run pipeline:
 ## 0.
 Download Anaconda or miniconda, or update installed version of conda using:
@@ -71,11 +79,3 @@ https://anaconda.org/conda-forge/r-devtools
 
 ## 7.
   When rerunning the pipeline rename the previous output folder to something new to avoid overwrites or confusion.
-
-# Notes:
-The leafcutter and DEseq modules of the pipeline are currently commented out. These are better run manually and with the specific covariates that have been tested for each dataset and have a large impact on the variance of the dataset.
-
-The other branch of this repository is set to work with mouse/mus musculus fastq data.
-
-DOI:
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.13379191.svg)](https://doi.org/10.5281/zenodo.13379191)
