@@ -77,14 +77,14 @@ multiqc_post_star_salmon(salmon_quantification.out.quant_dirs.collect(), star.ou
 
 // Differential Expression using DESeq 
 create_gene_map(genome_download.out.transcripts)
-select_metadata_cols(params.metadata_csv, params.metadata_key, get_packages.out.pack_done_val)
-DESeq(salmon_quantification.out.quant_dirs.collect(), select_metadata_cols.out.metadata_selected_cols, create_gene_map.out.gene_map)
+// select_metadata_cols(params.metadata_csv, params.metadata_key, get_packages.out.pack_done_val)
+// DESeq(salmon_quantification.out.quant_dirs.collect(), select_metadata_cols.out.metadata_selected_cols, create_gene_map.out.gene_map)
 
 // Differential Splicing using Leafcutter
 sj_loc="${params.output}/STAR/align"
 convert_juncs(sj_loc, star.out.sj_tabs.collect())
 cluster_juncs(convert_juncs.out.junc_list)
 gtf_to_exons(genome_download.out.gtf)
-create_groupfiles(cluster_juncs.out.counts_file, select_metadata_cols.out.metadata_selected_cols)
-leafcutter(cluster_juncs.out.counts_file, create_groupfiles.out.gf_out, gtf_to_exons.out.exon_file)
+// create_groupfiles(cluster_juncs.out.counts_file, select_metadata_cols.out.metadata_selected_cols)
+// leafcutter(cluster_juncs.out.counts_file, create_groupfiles.out.gf_out, gtf_to_exons.out.exon_file)
 }
