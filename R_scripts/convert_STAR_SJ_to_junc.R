@@ -17,15 +17,8 @@ convert_STAR_SJ_to_junc <- function(sj_dir_path, output_path, filter_out_blackli
   
   paths <- list.files(path = sj_dir_path, pattern = "_SJ.out.tab", full.names = TRUE)
   
-  if(filter_out_blacklist_regions == TRUE){
-    
-    library(GenomicRanges)
-    library(rtracklayer)
-    
-    # Load encode blacklist (https://github.com/Boyle-Lab/Blacklist/tree/master/lists)
-    ENCODE_blacklist_hg38 <- rtracklayer::import(path_to_ENCODE_blacklist)
-    
-  }
+
+  
   
   for(i in 1:length(paths)){
     
@@ -40,7 +33,15 @@ convert_STAR_SJ_to_junc <- function(sj_dir_path, output_path, filter_out_blackli
                          col_names = c("chr", "intron_start", "intron_end", "strand", "intron_motif", "in_annotation", "unique_reads_junction", "multi_map_reads_junction", "max_splice_alignment_overhang"),
                          col_types = cols(chr = "c", .default = "d"))
     
+    
+    
     if(filter_out_blacklist_regions == TRUE){
+      
+      library(GenomicRanges)
+      library(rtracklayer)
+      
+      # Load encode blacklist (https://github.com/Boyle-Lab/Blacklist/tree/master/lists)
+      ENCODE_blacklist_hg38 <- rtracklayer::import(path_to_ENCODE_blacklist)
       
       sj_out <- sj_out %>%
         dplyr::mutate(strand = ifelse(strand == 0, "*",
@@ -97,22 +98,14 @@ convert_STAR_SJ_to_junc <- function(sj_dir_path, output_path, filter_out_blackli
                 delim = "\t",
                 col_names = F)
   }
-  
-  # write a .txt file with each
-  #junc_df <- tibble(junc_file_name = list.files(path = output_path, pattern = "_SJ_leafcutter.junc", full.names = TRUE))
-  
-  #write_delim(junc_df,
-  #            path = str_c(output_path, "/list_juncfiles.txt"),
-   #           delim = "\t",
-    #          col_names = F)
-  
 }
+
 
 convert_STAR_SJ_to_junc(sj_dir_path, output_path, filter_out_blacklist_regions=T, path_to_ENCODE_blacklist = blacklist_path)
 
 junc_df <- tibble(junc_file_name = list.files(path = output_path,
                                               pattern = "_SJ_leafcutter.junc", full.names = TRUE))
- 
+
 write_delim(junc_df,
-             path = str_c(".", "/list_juncfiles.txt"),
-             delim = "\t", col_names = F)
+            path = str_c(".", "/list_juncfiles.txt"),
+            delim = "\t", col_names = F)
