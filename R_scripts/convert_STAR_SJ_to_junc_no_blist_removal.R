@@ -30,7 +30,7 @@ convert_STAR_SJ_to_junc <- function(sj_dir_path, output_path, filter_out_blackli
   for(i in 1:length(paths)){
     
     sample_name <- paths[i] %>%
-      str_replace("/.*/", "") %>%convert_STAR_SJ_to_junc
+      str_replace("/.*/", "") %>%
       str_replace("_SJ.out.tab", "")
     
     cat("Loading splice junctions from:", paths[i],"\n")
