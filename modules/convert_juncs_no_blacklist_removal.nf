@@ -1,6 +1,6 @@
 process convert_juncs {
 
-myDir = file("${params.output}leafcutter")
+myDir = file("${params.output}/leafcutter")
 myDir.mkdirs()
 
     publishDir "${params.output}/leafcutter", mode: 'copy', overwrite: true
