@@ -59,13 +59,13 @@ fastp(data, get_packages.out.pack_done_val)
 fastqc2(fastp.out.reads)
 
 // Genome alignment with STAR
-star_genome_gen(genome_download.out.fasta, genome_download.out.gtf)
-star(fastp.out.reads, star_genome_gen.out.gdir)
+// star_genome_gen(genome_download.out.fasta, genome_download.out.gtf)
+// star(fastp.out.reads, star_genome_gen.out.gdir)
 
 // Read distribution with Rseqc (mapping to which genomic feature: intronic vs exonic vs UTR etc)
-gtf_to_bed(genome_download.out.gtf)
-sam_sort_index(star.out.bams)
-rseqc_read_distribution(sam_sort_index.out.sorted_bams, gtf_to_bed.out.bed_model)
+// gtf_to_bed(genome_download.out.gtf)
+// sam_sort_index(star.out.bams)
+// rseqc_read_distribution(sam_sort_index.out.sorted_bams, gtf_to_bed.out.bed_model)
 
 // Salmon transcript quantification
 decoy_gen(genome_download.out.fasta, genome_download.out.transcripts)
@@ -81,10 +81,10 @@ create_gene_map(genome_download.out.transcripts)
 // DESeq(salmon_quantification.out.quant_dirs.collect(), select_metadata_cols.out.metadata_selected_cols, create_gene_map.out.gene_map)
 
 // Differential Splicing using Leafcutter
-sj_loc="${params.output}/STAR/align"
-convert_juncs(sj_loc, star.out.sj_tabs.collect())
-cluster_juncs(convert_juncs.out.junc_list)
-gtf_to_exons(genome_download.out.gtf)
+// sj_loc="${params.output}/STAR/align"
+// convert_juncs(sj_loc, star.out.sj_tabs.collect())
+// cluster_juncs(convert_juncs.out.junc_list)
+// gtf_to_exons(genome_download.out.gtf)
 // create_groupfiles(cluster_juncs.out.counts_file, select_metadata_cols.out.metadata_selected_cols)
 // leafcutter(cluster_juncs.out.counts_file, create_groupfiles.out.gf_out, gtf_to_exons.out.exon_file)
 }
