@@ -14,12 +14,9 @@ and install mamba using 'conda install -c conda-forge mamba' for quicker environ
 ## 1. 
   Create the conda environment from within this folder using (change NAME to what you want environment to be called):
 
-  conda env create --name NAME --file nextflow_qc.align_env.yml
-
-  if mamba is installed:
   mamba env create --name NAME --file nextflow_qc.align_env.yml
 
-  This can take around 5-15 min to build with conda.
+  This can take around 5-15 min to build.
   To activate the environment:
 
   conda activate NAME
