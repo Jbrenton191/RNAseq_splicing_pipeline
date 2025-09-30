@@ -16,7 +16,7 @@ and install mamba using 'conda install -c conda-forge mamba' for quicker environ
 
   mamba env create --name NAME --file nextflow_qc.align_env.yml
 
-  This can take around 5-15 min to build with conda.
+  This can take around 5-15 min to build.
   To activate the environment:
 
   conda activate NAME
