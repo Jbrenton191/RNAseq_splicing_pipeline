@@ -1,0 +1,10 @@
+name: test_pic
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - nextflow
+  - qualimap
+  - picard
+  - ucsc-gtftogenepred
