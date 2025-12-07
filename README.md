@@ -76,3 +76,7 @@ https://anaconda.org/conda-forge/r-devtools
 
 ## 7.
   When rerunning the pipeline rename the previous output folder to something new to avoid overwrites or confusion.
+
+## 8.
+  This worked on a Ubuntu 22.04 server but can be difficult to install on newer servers. The main problem is the install of leafcutter in the Rpackage download script. The pipeline can be run without this script as long as leafcutter modules are not enabled.
+  
