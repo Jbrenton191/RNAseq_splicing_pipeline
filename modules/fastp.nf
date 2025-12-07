@@ -11,8 +11,8 @@ process fastp {
     output:
     tuple val("${sampleID}"), path("*.fastq.gz"), emit: reads
     tuple val("${sampleID}"), path("*.html"), emit: html
-    tuple val("${sampleID}"), path("*.zip") , emit: zip optional true
-    tuple val("${sampleID}"), path("*.json") , emit: json optional true
+    // tuple val("${sampleID}"), path("*.zip") , emit: zip optional true
+    // tuple val("${sampleID}"), path("*.json") , emit: json optional true
 
     script:
     """

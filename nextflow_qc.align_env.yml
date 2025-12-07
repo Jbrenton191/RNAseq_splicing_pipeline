@@ -2,8 +2,6 @@ channels:
   - conda-forge
   - bioconda
 dependencies:
-  - conda-forge::r-base
-  - conda-forge::r-essentials
   - nextflow
   - fastp
   - multiqc
@@ -13,5 +11,6 @@ dependencies:
   - rseqc
   - samtools
   - regtools
-  - libv8
- # - cmake
+  - ucsc-gtftogenepred
+  - picard
+  - qualimap

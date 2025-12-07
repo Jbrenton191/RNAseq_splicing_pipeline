@@ -1,10 +1,9 @@
 nextflow.enable.dsl=2
 
-     params.data="/home/host_home/RNAseq_splicing_pipeline/sample_fastqs/*R{1,2}*.fastq.gz"
-     params.output= "${projectDir}/output_2pass_indv"
-
-     //params.metadata_csv= "${projectDir}/ASAP_samples_master_spreadsheet_25.8.21.csv"
-     //params.metadata_key= "${projectDir}/key_for_metadata.txt"
+params.data="/home/MRJonathanBrenton/Wood_ASAP_bulk/merged_files/*R{1,2}*.fastq.gz"  
+params.metadata_csv= "${projectDir}/ASAP_samples_master_spreadsheet_25.8.21.csv"
+params.metadata_key= "${projectDir}/key_for_metadata.txt"
+params.output= "${projectDir}/output_2pass_indv"
 
 include { get_packages } from './modules/get_packages'
 include { genome_download } from './modules/gencode_genome_download'
@@ -48,10 +47,9 @@ include { picard_rnaseq } from './modules/picard_rnaseq_mets'
 include { picard_gc } from './modules/picard_gcbias_mets'
 include { qualimap } from './modules/qualimap'
 
-
 workflow {
 // Get file pairs and view them:
-data=Channel.fromFilePairs("${params.data}").take(2)
+data=Channel.fromFilePairs("${params.data}")
 data.view()
 
 // Packages and Reference Downloads
@@ -85,16 +83,16 @@ multiqc_post_star_salmon(salmon_quantification.out.quant_dirs.collect(), star.ou
 
 // Differential Expression using DESeq 
 create_gene_map(genome_download.out.transcripts)
-// select_metadata_cols(params.metadata_csv, params.metadata_key, get_packages.out.pack_done_val)
-// DESeq(salmon_quantification.out.quant_dirs.collect(), select_metadata_cols.out.metadata_selected_cols, create_gene_map.out.gene_map)
+select_metadata_cols(params.metadata_csv, params.metadata_key, get_packages.out.pack_done_val)
+DESeq(salmon_quantification.out.quant_dirs.collect(), select_metadata_cols.out.metadata_selected_cols, create_gene_map.out.gene_map)
 
 // Differential Splicing using Leafcutter
 sj_loc="${params.output}/STAR/align"
 convert_juncs(sj_loc, star.out.sj_tabs.collect())
 cluster_juncs(convert_juncs.out.junc_list)
 gtf_to_exons(genome_download.out.gtf)
-// create_groupfiles(cluster_juncs.out.counts_file, select_metadata_cols.out.metadata_selected_cols)
-// leafcutter(cluster_juncs.out.counts_file, create_groupfiles.out.gf_out, gtf_to_exons.out.exon_file)
+create_groupfiles(cluster_juncs.out.counts_file, select_metadata_cols.out.metadata_selected_cols)
+leafcutter(cluster_juncs.out.counts_file, create_groupfiles.out.gf_out, gtf_to_exons.out.exon_file)
 
 // Picard and Qualimap QC modules. They provide QC data on STAR alignment which can be used to detect problematic samples and for covariate/outlier detection.
 gtf_to_ref_flat(genome_download.out.gtf)

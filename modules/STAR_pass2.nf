@@ -11,9 +11,9 @@ publishDir "${params.output}/STAR/align", mode: 'copy', overwrite: true
   	//val(sj_loc), emit: sj_loc
         path('*BAM_Aligned.sortedByCoord.out.bam'), emit: bams
 
-        tuple val(sampleID), path('*sortedByCoord.out.bam'), optional:true, emit: bam_sorted
-        tuple val(sampleID), path('*toTranscriptome.out.bam'), optional:true, emit: bam_transcript
-        tuple val(sampleID), path('*Aligned.unsort.out.bam'), optional:true, emit: bam_unsorted
+   //     tuple val(sampleID), path('*sortedByCoord.out.bam'), optional:true, emit: bam_sorted
+   //     tuple val(sampleID), path('*toTranscriptome.out.bam'), optional:true, emit: bam_transcript
+   //     tuple val(sampleID), path('*Aligned.unsort.out.bam'), optional:true, emit: bam_unsorted
 
         tuple val(sampleID), path('*Log.final.out'), emit: log_final
         tuple val(sampleID), path('*Log.out'), emit: log_out
