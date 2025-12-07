@@ -1,0 +1,141 @@
+FROM rocker/r-ver:4.5
+
+# Non-interactive frontend for APT
+ENV DEBIAN_FRONTEND=noninteractive
+
+SHELL ["/bin/bash", "-c"]
+
+# -------------------------------------------------------------------
+# 1. Install system dependencies (your list)
+# -------------------------------------------------------------------
+RUN apt-get update && apt-get install -y \
+    libpng-dev \
+    libjpeg-dev \
+    libtiff-dev \
+    libcairo2-dev \
+    libglib2.0-dev \
+    libfreetype6-dev \
+    libx11-dev \
+    libxt-dev \
+    libcurl4-openssl-dev \
+    libssl-dev \
+    libxml2-dev \
+    build-essential \
+    libgit2-dev \
+    libgsl-dev \
+    libharfbuzz-dev \
+    libfribidi-dev \
+    pkg-config \
+    git \
+    vim \
+    wget \
+    tmux \
+    rename \
+    && rm -rf /var/lib/apt/lists/*
+
+# -------------------------------------------------------------------
+# 2. Install Miniconda (ARM version) into /opt/miniconda3
+# -------------------------------------------------------------------
+RUN mkdir -p /opt/miniconda3 && \
+    wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-aarch64.sh \
+        -O /opt/miniconda3/miniconda.sh && \
+    bash /opt/miniconda3/miniconda.sh -b -u -p /opt/miniconda3 && \
+    rm /opt/miniconda3/miniconda.sh
+
+ENV PATH="/opt/miniconda3/bin:${PATH}"
+
+# -------------------------------------------------------------------
+# 3. Initialize Conda + install Mamba
+# -------------------------------------------------------------------
+RUN conda init bash && \
+    conda config --set always_yes yes --set changeps1 no && \
+    conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/main && \
+    conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/r && \
+    conda install conda-forge::mamba -y
+
+# -------------------------------------------------------------------
+# 4. Clone the RNAseq Splicing Pipeline repo
+# -------------------------------------------------------------------
+WORKDIR /opt
+RUN git clone https://github.com/Jbrenton191/RNAseq_splicing_pipeline.git
+
+# -------------------------------------------------------------------
+# 5. Create Nextflow environment (nf_env)
+# -------------------------------------------------------------------
+RUN mamba env create \
+      --name nf_env \
+      --file /opt/RNAseq_splicing_pipeline/nextflow_qc.align_env.yml && \
+    conda run -n nf_env conda remove r-base -y
+
+# -------------------------------------------------------------------
+# 6. Create leafcutter_env
+# -------------------------------------------------------------------
+RUN conda config --add channels conda-forge && \
+    conda config --set channel_priority strict && \
+    mamba create -n leafcutter_env \
+        conda-forge::r-rcppeigen=0.3.3.9.2 \
+        r-base=4.2.3 \
+        r-remotes \
+        r-devtools
+
+# -------------------------------------------------------------------
+# 7. Install Leafcutter R dependencies (inside leafcutter_env)
+# -------------------------------------------------------------------
+RUN conda run -n leafcutter_env Rscript - <<'EOF'
+# Load helpers
+if (!requireNamespace("remotes", quietly = TRUE)) install.packages("remotes", dependencies = FALSE)
+if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager", dependencies = FALSE)
+
+# Set Bioconductor version
+BiocManager::install(version = "3.16", ask = FALSE, update = FALSE)
+
+cran_packages <- c(
+  "rstantools_2.2.0",
+  "foreach_1.5.2",
+  "ggplot2_3.3.6",
+  "R.utils_2.12.0",
+  "gridExtra_2.3",
+  "reshape2_1.4.4",
+  "Hmisc_4.7-0",
+  "dplyr_1.0.9",
+  "doMC_1.3.8",
+  "optparse_1.7.3",
+  "shiny_1.7.2",
+  "intervals_0.15.2",
+  "shinycssloaders_1.0.0",
+  "DT_0.23",
+  "gtable_0.3.6",
+  "shinyjs_2.1.0",
+  "oompaBase_3.2.9",
+  "oompaData_3.1.2",
+  "TailRank_3.2.2",
+  "magrittr_2.0.3",
+  "stringr_1.4.0",
+  "StanHeaders_2.21.0-7",
+  "rstan_2.21.5"
+)
+
+# Install CRAN packages
+for (pkg in cran_packages) {
+  remotes::install_version(
+    sub("_.*", "", pkg),
+    version = sub(".*_", "", pkg),
+    repos = "http://cran.us.r-project.org",
+    upgrade = "never",
+    dependencies = TRUE
+  )
+}
+
+# Bioconductor packages
+BiocManager::install("DirichletMultinomial", version = "3.16", ask = FALSE, update = FALSE)
+BiocManager::install("Biobase", version = "3.16", ask = FALSE, update = FALSE)
+
+# Install Leafcutter
+remotes::install_github("davidaknowles/leafcutter/leafcutter", upgrade = FALSE, ask = FALSE)
+EOF
+
+# -------------------------------------------------------------------
+# 8. Default working directory and shell
+# -------------------------------------------------------------------
+WORKDIR /root
+CMD ["/bin/bash"]
