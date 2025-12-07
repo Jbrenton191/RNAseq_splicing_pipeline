@@ -1,78 +1,63 @@
 DOI:
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.13379191.svg)](https://doi.org/10.5281/zenodo.13379191)
 
-# Notes:
-The leafcutter and DEseq modules of the pipeline are currently commented out. These are better run manually and with the specific covariates that have been tested for each dataset and have a large impact on the variance of the dataset.
+This pipeline is now to ready to run from a dependency complete docker image hosted here:
 
-The other branch of this repository is set to work with mouse/mus musculus fastq data.
+https://hub.docker.com/repository/docker/jbrenton191/rnaseq_splicing_pipeline/general
 
-# Steps and options to run pipeline:
-## 0.
-Download Anaconda or miniconda, or update installed version of conda using:
-'conda update -n base conda'
-and install mamba using 'conda install -c conda-forge mamba' for quicker environment solving.
-## 1. 
-  Create the conda environment from within this folder using (change NAME to what you want environment to be called):
+## 0. Pull the docker image
+docker pull jbrenton191/rnaseq_splicing_pipeline:rnaseq_qc_align
 
-  mamba env create --name NAME --file nextflow_qc.align_env.yml
+## 1. Run a container from the image with a mounted link to your home to access files for the pipeline:
 
-  This can take around 5-15 min to build.
-  To activate the environment:
+docker run -it --name analysis_pipeline -v $HOME:/home/host_home jbrenton191/rnaseq_splicing_pipeline:rnaseq_qc_align /bin/bash
 
-  conda activate NAME
+## 2. Activate the conda environment needed to run the pipeline:
 
-## 2. 
+conda activate nf_env
+
+## 3. Check and change the genome
   Change the genome or transcripts build or gtf in the gencode_genome_download.nf file in the modules folder. New ftp links can be added and then the gunzip lines need to be updated to match those names.
 
 The current pipeline is set to download gencode v41 gtf and transcript references and use the GRCh38 genome.
 
-## 3. 
+## 4. Check memory and core limits
+
   The config file also needs to be changed depending on your system/server. It currently runs 6 processes/tasks (an individual file or module being run = 1 task) at a time and uses 6 CPUs and 36 GB of RAM per task (as currently being used on a large server). 
+
+  Update your docker memory allocations also to avoid any crashes. If needed the RNAseq_splicing_pipeline at /home can be copied into your /home/host_home or recloned into that location.
 
   These can be changed depending on the resources of your server/system (remember to not remove the . before GB! It is needed). A commented version using slurm to distribute tasks is listed below for reference.
 
-## 4. 
-  Metadata: 
-  For key for metadata file: Enter comma seaparated column/variable names from your metadata file. Then change the name in 2pass_indv_pipe.nf from:
+## 5. Change file directory in 2pass_indv.nf
 
-  params.metadata_csv= "${projectDir}/ASAP_samples_master_spreadsheet_25.8.21.csv" 
-  
-  to
-  
-  params.metadata_csv= "${projectDir}/NEW_METADATA_FILE"
+The pipeline is currently set up to run some small fastqs subsampled from publicly available data. 
 
-  The key for the metadata file is currently: key_for_metadata.txt
-
-  This is used to select the columns needed for sample name identification and in later analysis using DESeq and Leafcutter analysis. 
-
-  ALWAYS put sample ID/names column present in your metadata file first, then group or condition variable name to include in DESeq and Leafcutter analysis later as part of equation to account for these variables.
-
-  Currently this pipeline implements a basic analysis using group to test (If you have more than two groups for DEseq then this should be run re-run manually as only one group-group comparison will be output). If a more complex analysis is needed then Leafcutter and DESeq sections should be run manually with the addition of covariates to equation etc, but up until this point the pipeline should still be ok. For this see: https://rhreynolds.github.io/LBD-seq-bulk-analyses/overviews/RNAseq_workflow_tissue.html which has the details on how to run manually. The current pipeline is a basic implementation of this workflow.
-
-## 5. 
-  R scripts are used as part of the pipeline - a quick check to see if they can be downloaded on your system prior to running the whole pipeline is to load your conda environment specified above and run (from main folder, RNAseq_splicing_pipeline folder):
-
-  Rscript ./R_scripts/Rpackage_download.R
-
-  If this runs without error then it is good to go - otherwise it check the R_scripts/Rpackage_download.R file and check which package is causing the problem. Devtools can be problematic on some servers. One way around this is use the conda version of the R package ie:
-https://anaconda.org/conda-forge/r-devtools
+For your own data change this (line 3) to where your FASTQ files are located (relative to the docker path). Make sure the paired files have the same R1 or R2 ending. If not adjust this to match your file naming. I.e for X_1_fastq.gz, X_2_fastq.gz it would change to: *_{1,2}_.fastq.gz
 
 ## 6.
-  The easiest way to run the pipeline is to make a screen, and run:
+  The best way to run the pipeline is to run (tmux is installed but it can be left runnning within the docker):
 
   ./nextflow_time_date_wrapper.sh 2pass_indv_pipe.nf
+
+  This includes the use of the tower flag to allow for the pipeline run to be checked online.
 
   The pipeline can also be run in the background without using a screen using:
 
   ./nextflow_time_date_wrapper_bg.sh 2pass_indv_pipe.nf
 
-  However, the use of the screen allows for progress to be more easily checked.
+  However, the the first option allows for progress to be more easily checked.
 
   The output of the pipeline will be in a folder called:
 
   output will be in folder: output_2pass_indv
 
-  a work folder can be deleted after the run completes as this is a folder containing duplicate data but used for symlinking during pipeline run.
+  The work folder can be deleted after the run completes as this is a folder containing duplicate data but used for symlinking during pipeline run.
 
 ## 7.
   When rerunning the pipeline rename the previous output folder to something new to avoid overwrites or confusion.
+
+# Notes:
+The leafcutter and DEseq modules of the pipeline are currently commented out. These are better run manually and with the specific covariates that have been tested for each dataset and have a large impact on the variance of the dataset.
+
+There is another branch of this repository is set to work with mouse/mus musculus fastq data.
