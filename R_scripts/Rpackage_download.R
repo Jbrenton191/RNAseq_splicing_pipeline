@@ -21,7 +21,7 @@ if (!requireNamespace("tximport", quietly = TRUE)) BiocManager::install("tximpor
 
 if (!requireNamespace("DESeq2", quietly = TRUE)) BiocManager::install("DESeq2")
 
-if (!requireNamespace("leafcutter", quietly = TRUE)) devtools::install_github("davidaknowles/leafcutter/leafcutter")
+# if (!requireNamespace("leafcutter", quietly = TRUE)) devtools::install_github("davidaknowles/leafcutter/leafcutter")
 
 if (!requireNamespace("rtracklayer", quietly = TRUE)) BiocManager::install("rtracklayer")
 
