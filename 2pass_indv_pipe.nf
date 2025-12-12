@@ -56,7 +56,7 @@ data.view()
 
 // Packages and Reference Downloads
 get_packages()
-genome_download()
+genome_download(get_packages.out.pack_done_val)
 
 // Fastqc of original fastq files
 fastqc(data)
