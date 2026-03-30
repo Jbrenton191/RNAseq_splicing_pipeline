@@ -51,7 +51,7 @@ include { qualimap } from './modules/qualimap'
 
 workflow {
 // Get file pairs and view them:
-data=Channel.fromFilePairs("${params.data}").take(2)
+data=Channel.fromFilePairs("${params.data}")
 data.view()
 
 // Packages and Reference Downloads
