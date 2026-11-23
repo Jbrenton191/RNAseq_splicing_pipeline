@@ -1,6 +1,7 @@
 nextflow.enable.dsl=2
 
-     params.data="/home/host_home/RNAseq_splicing_pipeline/sample_fastqs/*R{1,2}*.fastq.gz"
+     // params.data="/home/host_home/RNAseq_splicing_pipeline/sample_fastqs/*R{1,2}*.fastq.gz"
+     params.data="${projectDir}/sample_fastqs/*R{1,2}*.fastq.gz"
      params.output= "${projectDir}/output_2pass_indv"
 
      //params.metadata_csv= "${projectDir}/ASAP_samples_master_spreadsheet_25.8.21.csv"
