@@ -12,16 +12,12 @@ docker pull jbrenton191/rnaseq_splicing_pipeline:rnaseq_qc_align
 
 docker run -it --name analysis_pipeline -v $HOME:/home/host_home jbrenton191/rnaseq_splicing_pipeline:rnaseq_qc_align /bin/bash
 
-## 2. Activate the conda environment needed to run the pipeline:
-
-conda activate nf_env
-
-## 3. Check and change the genome
+## 2. Check and change the genome
   Change the genome or transcripts build or gtf in the gencode_genome_download.nf file in the modules folder. New ftp links can be added and then the gunzip lines need to be updated to match those names.
 
 The current pipeline is set to download gencode v41 gtf and transcript references and use the GRCh38 genome.
 
-## 4. Check memory and core limits
+## 3. Check memory and core limits
 
   The config file also needs to be changed depending on your system/server. It currently runs 6 processes/tasks (an individual file or module being run = 1 task) at a time and uses 6 CPUs and 36 GB of RAM per task (as currently being used on a large server). 
 
@@ -29,13 +25,13 @@ The current pipeline is set to download gencode v41 gtf and transcript reference
 
   These can be changed depending on the resources of your server/system (remember to not remove the . before GB! It is needed). A commented version using slurm to distribute tasks is listed below for reference.
 
-## 5. Change file directory in 2pass_indv.nf
+## 4. Change file directory in 2pass_indv.nf
 
 The pipeline is currently set up to run some small fastqs subsampled from publicly available data. 
 
 For your own data change this (line 3) to where your FASTQ files are located (relative to the docker path). Make sure the paired files have the same R1 or R2 ending. If not adjust this to match your file naming. I.e for X_1_fastq.gz, X_2_fastq.gz it would change to: *_{1,2}_.fastq.gz
 
-## 6.
+## 5. Best way to run the pipeline
   The best way to run the pipeline is to run (tmux is installed but it can be left runnning within the docker):
 
   ./nextflow_time_date_wrapper.sh 2pass_indv_pipe.nf
@@ -54,10 +50,20 @@ For your own data change this (line 3) to where your FASTQ files are located (re
 
   The work folder can be deleted after the run completes as this is a folder containing duplicate data but used for symlinking during pipeline run.
 
-## 7.
+## 6. Rerunning the pipeline
   When rerunning the pipeline rename the previous output folder to something new to avoid overwrites or confusion.
 
 # Notes:
 The leafcutter and DEseq modules of the pipeline are currently commented out. These are better run manually and with the specific covariates that have been tested for each dataset and have a large impact on the variance of the dataset.
+
+# Running from a conda environment alone
+
+If you want to run from a conda environment alone - just install the environment with:
+
+conda env create --name nf_env --file nextflow_qc.align_env.yml
+
+and run the Rpackage_download.R script in the R_scripts folder.
+
+# Mouse branch
 
 There is another branch of this repository is set to work with mouse/mus musculus fastq data.
