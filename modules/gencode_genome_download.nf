@@ -7,7 +7,6 @@ myDir3.mkdir()
 publishDir "${params.output}/reference_downloads", mode: 'copy', overwrite: true
 
 	input:
-	val(packages_done)
 
 	output:
 	path("*primary_assembly*.fa"), emit: fasta
