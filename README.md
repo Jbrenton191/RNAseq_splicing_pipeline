@@ -58,11 +58,7 @@ The leafcutter and DEseq modules of the pipeline are currently commented out. Th
 
 # Running from a conda environment alone
 
-If you want to run from a conda environment alone - just install the environment with:
-
-conda env create --name nf_env --file nextflow_qc.align_env.yml
-
-and run the Rpackage_download.R script in the R_scripts folder.
+If you want to run from a conda environment alone - check the conda install branch and follow instructions in the readme.
 
 # Mouse branch
 
