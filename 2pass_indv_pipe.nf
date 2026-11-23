@@ -6,7 +6,6 @@ nextflow.enable.dsl=2
      //params.metadata_csv= "${projectDir}/ASAP_samples_master_spreadsheet_25.8.21.csv"
      //params.metadata_key= "${projectDir}/key_for_metadata.txt"
 
-include { get_packages } from './modules/get_packages'
 include { genome_download } from './modules/gencode_genome_download'
 include { fastp } from './modules/fastp'
 include { fastqc; fastqc as fastqc2 } from './modules/fastqc'
@@ -54,16 +53,15 @@ workflow {
 data=Channel.fromFilePairs("${params.data}")
 data.view()
 
-// Packages and Reference Downloads
-get_packages()
-genome_download(get_packages.out.pack_done_val)
+// Reference Downloads
+genome_download()
 
 // Fastqc of original fastq files
 fastqc(data)
 
 // Trimming and QC with fastp and Fastqc of trimmed fastq files
 output_dir=Channel.value("${baseDir}/output")
-fastp(data, get_packages.out.pack_done_val)
+fastp(data)
 fastqc2(fastp.out.reads)
 
 // Genome alignment with STAR
