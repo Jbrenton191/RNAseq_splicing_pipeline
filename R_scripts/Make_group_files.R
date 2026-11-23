@@ -47,6 +47,31 @@ master <-
   dplyr::select(lc_sample_name, Disease_Group, RIN, Sex, AoD) %>% 
   arrange(Disease_Group)
 
-RNAseqProcessing::create_group_files_multi_pairwisecomp(df = master, 
+# create group files updated function:
+# need updated function as filter_() is now defunct in dplyr/tidyverse
+create_group_files_multi_pairwisecomp<-function(df, group_column_name, output_path) 
+{
+  library(dplyr)
+  library(lazyeval)
+  groups <- df %>% .[[group_column_name]] %>% unique() %>% 
+    sort() %>% as.character()
+  comparisons <- combn(x = groups, m = 2) %>% t() %>% as_tibble()
+  for (i in 1:nrow(comparisons)) {
+    comparison <- comparisons[i, ] %>% as_vector()
+    
+    select_comparison <- df %>%
+      dplyr::filter(
+        .data[[group_column_name]] %in% comparison
+      )
+    
+    write_delim(x = select_comparison, file = str_c(output_path, 
+                                                    "/", comparison[1], "_vs_", comparison[2], "_", 
+                                                    "group_file.txt"), 
+                delim = "\t", col_names = F)
+  }
+}
+
+
+create_group_files_multi_pairwisecomp(df = master, 
                                                         group_column_name = "Disease_Group", 
                                                         output_path = str_c(leafcutter_dir, "diff_splicing/group_files/"))
