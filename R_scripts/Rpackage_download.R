@@ -13,7 +13,7 @@ if (!require(devtools)) install.packages("devtools", repos='https://www.stats.br
 if (!require(lazyeval)) install.packages('lazyeval', repos='https://www.stats.bris.ac.uk/R/')
 
 # library(devtools)
-if (!requireNamespace("RNAseqProcessing", quietly = TRUE)) devtools::install_github("RHReynolds/RNAseqProcessing")
+# if (!requireNamespace("RNAseqProcessing", quietly = TRUE)) devtools::install_github("RHReynolds/RNAseqProcessing")
 
 if (!requireNamespace("Biostrings", quietly = TRUE)) BiocManager::install("Biostrings")
 
