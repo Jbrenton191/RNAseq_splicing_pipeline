@@ -29,6 +29,7 @@ cp -r /root/RNAseq_splicing_pipeline ~
 To activate the correct conda:
 
 source /opt/miniconda3/etc/profile.d/conda.sh
+
 conda activate nf_env
 
 ## 2. Check and change the genome
