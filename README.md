@@ -12,6 +12,22 @@ docker pull jbrenton191/rnaseq_splicing_pipeline:rnaseq_qc_align
 
 docker run -it --name analysis_pipeline -v $HOME:/home/host_home jbrenton191/rnaseq_splicing_pipeline:rnaseq_qc_align /bin/bash
 
+## 1.5 If running from Apptainer:
+
+1.5.1 Pull docker:
+apptainer pull rnaseq_splicing_pipeline.sif docker://jbrenton191/rnaseq_splicing_pipeline:rnaseq_qc_align
+
+1.5.2 Run it in a shell:
+apptainer shell --bind $HOME:$HOME rnaseq_splicing_pipeline.sif
+
+1.5.3 Copy over the (or reclone this repo it in your home folder):
+cp -r /root/RNAseq_splicing_pipeline ~
+
+To activate the correct conda:
+
+source /opt/miniconda3/etc/profile.d/conda.sh
+conda activate nf_env
+
 ## 2. Check and change the genome
   Change the genome or transcripts build or gtf in the gencode_genome_download.nf file in the modules folder. New ftp links can be added and then the gunzip lines need to be updated to match those names.
 
