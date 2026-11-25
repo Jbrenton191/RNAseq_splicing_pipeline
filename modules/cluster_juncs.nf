@@ -2,7 +2,7 @@ process cluster_juncs {
 
 publishDir "${params.output}/leafcutter", mode: 'copy', overwrite: true
 
-      conda 'python=2.7.14'
+conda 'conda-forge::python=2.7.15'
 
         input:
         path(junc_list)
