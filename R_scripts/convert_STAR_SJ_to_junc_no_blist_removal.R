@@ -114,5 +114,5 @@ junc_df <- tibble(junc_file_name = list.files(path = output_path,
                                               pattern = "_SJ_leafcutter.junc", full.names = TRUE))
  
 write_delim(junc_df,
-             path = str_c(".", "/list_juncfiles.txt"),
+             file = str_c(".", "/list_juncfiles.txt"),
              delim = "\t", col_names = F)
