@@ -28,7 +28,7 @@ include { select_metadata_cols } from './modules/select_metadata_cols'
 include { DESeq } from './modules/DESeq'
 
 include { convert_juncs } from './modules/convert_juncs'
-include { cluster_juncs } from './modules/cluster_juncs'
+include { cluster_juncs } from './modules/cluster_juncs_no_blacklist_removal'
 include { gtf_to_exons } from './modules/gtf_to_exons'
 include { create_groupfiles } from './modules/create_groupfiles_for_leafcutter'
 include { leafcutter } from './modules/leafcutter'
