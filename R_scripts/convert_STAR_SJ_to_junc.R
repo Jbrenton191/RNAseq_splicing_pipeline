@@ -93,7 +93,7 @@ convert_STAR_SJ_to_junc <- function(sj_dir_path, output_path, filter_out_blackli
                   dplyr::mutate(intron_start = as.integer(intron_start),
                                 intron_end = as.integer(intron_end),
                                 unique_reads_junction = as.integer(unique_reads_junction)),
-                path = str_c(output_path, "/", sample_name, "_SJ_leafcutter.junc"),
+                file = str_c(output_path, "/", sample_name, "_SJ_leafcutter.junc"),
                 delim = "\t",
                 col_names = F)
   }
