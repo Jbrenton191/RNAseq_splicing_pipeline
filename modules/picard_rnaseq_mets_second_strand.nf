@@ -18,7 +18,7 @@ script:
 """
 name=`echo "$bam" | sed 's/_mapped.*//g'`
 
-picard CollectRnaSeqMetrics \
+picard -Xmx5g -Xms64m CollectRnaSeqMetrics \
 I=$bam \
 O=\${name}.rnaseq \
 REF_FLAT=$ref_flat \
